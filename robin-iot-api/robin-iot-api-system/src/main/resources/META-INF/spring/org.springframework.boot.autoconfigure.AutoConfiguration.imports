@@ -1,0 +1,3 @@
+com.robin.iot.system.api.factory.RemoteUserFallbackFactory
+com.robin.iot.system.api.factory.RemoteLogFallbackFactory
+com.robin.iot.system.api.factory.RemoteFileFallbackFactory

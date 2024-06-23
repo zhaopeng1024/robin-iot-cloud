@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.robin</groupId>
+        <artifactId>robin-iot</artifactId>
+        <version>3.6.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>robin-iot-common-log</module>
+        <module>robin-iot-common-core</module>
+        <module>robin-iot-common-redis</module>
+        <module>robin-iot-common-seata</module>
+        <module>robin-iot-common-swagger</module>
+        <module>robin-iot-common-security</module>
+        <module>robin-iot-common-datascope</module>
+        <module>robin-iot-common-datasource</module>
+    </modules>
+
+    <artifactId>robin-iot-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        robin-iot-common通用模块
+    </description>
+
+</project>

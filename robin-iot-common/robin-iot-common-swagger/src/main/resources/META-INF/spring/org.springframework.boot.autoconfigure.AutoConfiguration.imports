@@ -1,0 +1,3 @@
+# com.robin.iot.common.swagger.config.SwaggerAutoConfiguration
+# com.robin.iot.common.swagger.config.SwaggerWebConfiguration
+# com.robin.iot.common.swagger.config.SwaggerBeanPostProcessor
