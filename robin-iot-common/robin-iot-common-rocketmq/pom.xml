@@ -10,7 +10,13 @@
     </parent>
 
     <artifactId>robin-iot-common-rocketmq</artifactId>
-    <description>RocketMQ 组件</description>
+    <description>
+        RocketMQ 增强组件
+
+        一个完整的消息传递链路从生产到消费应包括：准备消息、发送消息、记录消息日志、处理发送失败、记录接收消息日志、处理业务逻辑、
+        异常处理和异常重试等，虽然使用原生RocketMQ可以完成这些动作，但每个生产者和消费者都需要编写大量重复的代码来完成相同的任务，
+        因此，我们开发了RocketMQ增强组件，将这些重复的代码封装成一个组件，方便使用者使用。
+    </description>
 
     <properties>
         <rocketmq-spring-boot-starter.version>2.3.0</rocketmq-spring-boot-starter.version>

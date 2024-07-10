@@ -6,13 +6,13 @@ import com.robin.iot.common.rocketmq.domain.BaseMessage;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -30,7 +30,7 @@ public class RocketMQEnhancedTemplate {
     private final RocketMQTemplate rocketTemplate;
 
     @Resource
-    private RocketMqEnhancedProperties rocketEnhanceProperties;
+    private RocketMqEnhancedProperties rocketEnhancedProperties;
 
     public String buildDestination(String topic, String tag) {
         topic = rebuildTopic(topic);
@@ -38,9 +38,12 @@ public class RocketMQEnhancedTemplate {
     }
 
     private String rebuildTopic(String topic) {
-        if (rocketEnhanceProperties.isEnableIsolation() &&
-                StringUtils.isNotBlank(rocketEnhanceProperties.getEnvironment())) {
-            return topic + "_" + rocketEnhanceProperties.getEnvironment();
+        if (rocketEnhancedProperties.isEnableIsolation() && StringUtils.hasText(rocketEnhancedProperties.getEnvironment())) {
+            String topicSuffix = rocketEnhancedProperties.getEnvironment();
+            if (StringUtils.hasText(rocketEnhancedProperties.getGrayFlag())) {
+                topicSuffix = String.join("_", topicSuffix, rocketEnhancedProperties.getGrayFlag());
+            }
+            return topic + "_" + topicSuffix;
         }
         return topic;
     }

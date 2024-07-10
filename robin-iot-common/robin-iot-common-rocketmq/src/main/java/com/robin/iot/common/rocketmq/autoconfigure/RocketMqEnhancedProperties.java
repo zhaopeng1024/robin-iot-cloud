@@ -1,5 +1,6 @@
 package com.robin.iot.common.rocketmq.autoconfigure;
 
+import com.robin.iot.common.rocketmq.constant.MessageConstants;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -22,5 +23,10 @@ public class RocketMqEnhancedProperties {
      * 环境
      */
     private String environment;
+
+    /**
+     * 灰度标识
+     */
+    private String grayFlag = MessageConstants.DEFAULT_GRAY_FLAG;
 
 }
