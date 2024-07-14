@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.robin</groupId>
         <artifactId>robin-iot</artifactId>
-        <version>3.6.4</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,6 +18,7 @@
         <module>robin-iot-common-datascope</module>
         <module>robin-iot-common-datasource</module>
         <module>robin-iot-common-rocketmq</module>
+        <module>robin-iot-common-banner</module>
     </modules>
 
     <artifactId>robin-iot-common</artifactId>

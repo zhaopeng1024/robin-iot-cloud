@@ -20,11 +20,8 @@ import com.robin.iot.common.swagger.annotation.EnableCustomSwagger2;
 public class JobApplication
 {
 
-    private static final Logger log = LoggerFactory.getLogger(JobApplication.class);
-
     public static void main(String[] args)
     {
         SpringApplication.run(JobApplication.class, args);
-        log.info("JobApplication - 定时任务服务启动成功");
     }
 }

@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.robin</groupId>
         <artifactId>robin-iot</artifactId>
-        <version>3.6.4</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

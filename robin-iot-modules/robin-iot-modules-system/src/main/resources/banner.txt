@@ -1,6 +1,0 @@
-
-  ______  _____  ______  _____ __   _     _____  _____  _______
- |_____/ |     | |_____]   |   | \  | ___   |   |     |    |
- |    \_ |_____| |_____] __|__ |  \_|     __|__ |_____|    |
- Spring Application Name: ${spring.application.name}
- Spring Boot Version: ${spring-boot.version}
