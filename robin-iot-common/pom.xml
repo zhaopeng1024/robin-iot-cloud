@@ -19,6 +19,7 @@
         <module>robin-iot-common-datasource</module>
         <module>robin-iot-common-rocketmq</module>
         <module>robin-iot-common-banner</module>
+        <module>robin-iot-common-mqtt</module>
     </modules>
 
     <artifactId>robin-iot-common</artifactId>

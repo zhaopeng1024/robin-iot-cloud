@@ -8,7 +8,7 @@ import com.robin.iot.system.api.domain.SysDept;
 import com.robin.iot.system.domain.SysMenu;
 
 /**
- * Treeselect树结构实体类
+ * TreeSelect 树结构实体类
  * 
  * @author zhaopeng
  */
