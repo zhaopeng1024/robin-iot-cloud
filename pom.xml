@@ -213,10 +213,17 @@
                 <version>${robin-iot.version}</version>
             </dependency>
 
-            <!-- RocketMQ 模块 -->
+            <!-- RocketMQ 组件 -->
             <dependency>
                 <groupId>com.robin</groupId>
                 <artifactId>robin-iot-common-rocketmq</artifactId>
+                <version>${robin-iot.version}</version>
+            </dependency>
+
+            <!-- Kafka 组件 -->
+            <dependency>
+                <groupId>com.robin</groupId>
+                <artifactId>robin-iot-common-kafka</artifactId>
                 <version>${robin-iot.version}</version>
             </dependency>
         </dependencies>

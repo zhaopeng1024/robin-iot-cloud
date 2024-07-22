@@ -18,7 +18,8 @@ public class MessageProducerListener<K, V> implements ProducerListener<K, V> {
      */
     @Override
     public void onSuccess(ProducerRecord<K, V> producerRecord, RecordMetadata recordMetadata) {
-        log.info("消息发送成功: topic: {}, partition: {}, offset: {}", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset());
+        log.info("key:[{}], topic:[{}], message:[{}], partition:[{}], result: [Send message to kafka success.]",
+                producerRecord.key(), producerRecord.topic(), producerRecord.value(), producerRecord.partition());
     }
 
     /**
@@ -29,7 +30,7 @@ public class MessageProducerListener<K, V> implements ProducerListener<K, V> {
      */
     @Override
     public void onError(ProducerRecord<K, V> producerRecord, RecordMetadata recordMetadata, Exception exception) {
-        assert recordMetadata != null;
-        log.error("消息发送失败: topic: {}, partition: {}, offset: {}", recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset(), exception);
+        log.error("key:[{}], topic:[{}], message:[{}], partition:[{}], result: [Send message to kafka failed.]",
+                producerRecord.key(), producerRecord.topic(), producerRecord.value(), producerRecord.partition(), exception);
     }
 }
