@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@ConfigurationProperties("spring.kafka.multiple")
-public class KafkaProperties {
+@ConfigurationProperties("spring.kafka.enhance")
+public class KafkaEnhancedProperties {
 
     /**
      * 主数据源
@@ -38,6 +38,6 @@ public class KafkaProperties {
     /**
      * 数据源
      */
-    private Map<String, KafkaProperties> dataSources;
+    private Map<String, KafkaEnhancedProperties> dataSources;
 
 }

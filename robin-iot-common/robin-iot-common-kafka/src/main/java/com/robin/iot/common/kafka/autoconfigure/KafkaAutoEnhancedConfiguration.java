@@ -9,6 +9,6 @@ import org.springframework.kafka.annotation.EnableKafka;
  */
 @EnableKafka
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(KafkaProperties.class)
-public class KafkaAutoConfiguration {
+@EnableConfigurationProperties(KafkaEnhancedProperties.class)
+public class KafkaAutoEnhancedConfiguration {
 }
