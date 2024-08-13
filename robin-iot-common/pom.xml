@@ -20,6 +20,7 @@
         <module>robin-iot-common-rocketmq</module>
         <module>robin-iot-common-banner</module>
         <module>robin-iot-common-mqtt</module>
+        <module>robin-iot-common-kafka</module>
     </modules>
 
     <artifactId>robin-iot-common</artifactId>
