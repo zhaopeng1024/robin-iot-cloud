@@ -1,4 +1,4 @@
-package com.robin.iot.common.mqtt.subscribe;
+package com.robin.iot.common.mqtt.subscriber;
 
 /**
  * 消息处理函数式接口

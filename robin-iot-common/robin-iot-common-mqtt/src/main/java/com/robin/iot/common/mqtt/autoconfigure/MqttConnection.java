@@ -78,6 +78,9 @@ public class MqttConnection {
 
     /**
      * 是否清除会话
+     * <p>
+     * 如果客户端连接时设置 Clean Session 为 false，并且使用相同的客户端 ID 再次上线，
+     * 那么消息服务器将为客户端缓存一定数量的离线消息，并在它重新上线时发送给它
      *
      * @see MqttConnectOptions#setCleanSession(boolean)
      */
