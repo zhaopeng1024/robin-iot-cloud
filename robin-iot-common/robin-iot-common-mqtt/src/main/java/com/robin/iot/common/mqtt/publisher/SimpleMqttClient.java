@@ -3,7 +3,7 @@ package com.robin.iot.common.mqtt.publisher;
 import com.robin.iot.common.mqtt.autoconfigure.MqttClientAdapter;
 import com.robin.iot.common.mqtt.convert.MqttConversionService;
 import com.robin.iot.common.mqtt.subscriber.Subscriber;
-import com.robin.iot.common.mqtt.subscriber.TopicPair;
+import com.robin.iot.common.mqtt.subscriber.TopicPairer;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.util.Assert;
@@ -88,20 +88,20 @@ public record SimpleMqttClient(String id,
      * @param enableShared 是否启用共享订阅
      * @return 合并后的主题集合
      */
-    private Set<TopicPair> mergeTopics(String clientId, boolean enableShared) {
-        Set<TopicPair> topicPairs = new HashSet<>();
+    private Set<TopicPairer> mergeTopics(String clientId, boolean enableShared) {
+        Set<TopicPairer> topicPairers = new HashSet<>();
         subscribers.forEach(subscriber -> {
             if (subscriber.containsClientId(clientId)) {
-                topicPairs.addAll(subscriber.getTopics());
+                topicPairers.addAll(subscriber.getTopics());
             }
         });
-        if (topicPairs.isEmpty()) {
-            return topicPairs;
+        if (topicPairers.isEmpty()) {
+            return topicPairers;
         }
-        TopicPair[] pairs = new TopicPair[topicPairs.size()];
-        topicPairs.forEach(topic -> {
+        TopicPairer[] pairs = new TopicPairer[topicPairers.size()];
+        topicPairers.forEach(topic -> {
             for (int i = 0; i < pairs.length; i++) {
-                TopicPair pair = pairs[i];
+                TopicPairer pair = pairs[i];
                 if (pair == null) {
                     pairs[i] = topic;
                     break;
@@ -128,7 +128,7 @@ public record SimpleMqttClient(String id,
     }
 
     private void subscribe() {
-        Set<TopicPair> topics = mergeTopics(id, enableShared);
+        Set<TopicPairer> topics = mergeTopics(id, enableShared);
         adapter.beforeSubscribe(id, topics);
         if (topics.isEmpty()) {
             log.warn("mqtt client {} has no topic to subscribe.", id);
@@ -137,7 +137,7 @@ public record SimpleMqttClient(String id,
             String[] topic = new String[topics.size()];
             int[] qos = new int[topics.size()];
             int i = 0;
-            for (TopicPair pair : topics) {
+            for (TopicPairer pair : topics) {
                 topic[i] = pair.getTopic(enableShared);
                 qos[i] = pair.getQos();
                 joiner.add("('" + topic[i] + "', " + qos[i] + ")");

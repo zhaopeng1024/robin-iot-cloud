@@ -1,7 +1,7 @@
 package com.robin.iot.common.mqtt.subscriber;
 
 import com.robin.iot.common.mqtt.convert.MqttConversionService;
-import com.robin.iot.common.mqtt.exception.NullParameterException;
+import com.robin.iot.common.mqtt.exception.NullParameException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -20,25 +20,25 @@ import java.util.*;
 @Slf4j
 public class Subscriber {
 
-    private SubscriberModel subscriberModel;
+    private SubscribeEndpoint subscribeEndpoint;
     private String[] clientIds;
     private IMessageHandler handler;
-    private LinkedList<ParameterModel> parameters;
+    private LinkedList<Parameter> parameters;
     /**
      * 是否已经填充参数了
      */
     private boolean hasResolveEmbeddedValue;
 
     @Getter
-    private final LinkedList<TopicPair> topics = new LinkedList<>();
+    private final LinkedList<TopicPairer> topics = new LinkedList<>();
 
     public void accept(String clientId, String topic, MqttMessage message) {
-        Optional<TopicPair> matched = matched(clientId, topic);
+        Optional<TopicPairer> matched = matched(clientId, topic);
         if (matched.isPresent()) {
             try {
                 Object[] parameters = fillParameters(matched.get(), topic, message);
                 handler.receive(parameters);
-            } catch (NullParameterException e) {
+            } catch (NullParameException e) {
                 log.debug("message params error: {}", e.getMessage());
             } catch (Exception e) {
                 log.error("message handler error: {}", e.getMessage(), e);
@@ -46,37 +46,37 @@ public class Subscriber {
         }
     }
 
-    public static Subscriber of(SubscriberModel subscriberModel, Object bean, Method method) {
-        LinkedList<ParameterModel> parameters = ParameterModel.of(method);
+    public static Subscriber of(SubscribeEndpoint subscribeEndpoint, Object bean, Method method) {
+        LinkedList<Parameter> parameters = Parameter.of(method);
         IMessageHandler handler = (params) -> method.invoke(bean, params);
-        return of(subscriberModel, parameters, handler);
+        return of(subscribeEndpoint, parameters, handler);
     }
 
     /**
      * 创建消息处理对象
      *
-     * @param subscriberModel  订阅模型
+     * @param subscribeEndpoint  订阅模型
      * @param parameters 处理方法的参数
      * @param handler    消息处理方法
      */
-    public static Subscriber of(SubscriberModel subscriberModel, LinkedList<ParameterModel> parameters, IMessageHandler handler) {
+    public static Subscriber of(SubscribeEndpoint subscribeEndpoint, LinkedList<Parameter> parameters, IMessageHandler handler) {
         Subscriber subscriber = new Subscriber();
-        subscriber.subscriberModel = subscriberModel;
+        subscriber.subscribeEndpoint = subscribeEndpoint;
         subscriber.handler = handler;
         subscriber.parameters = parameters;
         return subscriber;
     }
 
-    private void setTopics(SubscriberModel subscribe, HashMap<String, Class<?>> paramTypeMap) {
+    private void setTopics(SubscribeEndpoint subscribe, HashMap<String, Class<?>> paramTypeMap) {
         String[] topics = subscribe.value();
         int[] qos = fillQos(topics, subscribe.qos());
         String[] groups = fillGroups(topics, subscribe.groups());
-        LinkedHashSet<TopicPair> temps = new LinkedHashSet<>();
+        LinkedHashSet<TopicPairer> temps = new LinkedHashSet<>();
         for (int i = 0; i < topics.length; i++) {
-            temps.add(TopicPair.of(topics[i], qos[i], groups[i], paramTypeMap));
+            temps.add(TopicPairer.of(topics[i], qos[i], groups[i], paramTypeMap));
         }
         this.topics.addAll(temps);
-        this.topics.sort(Comparator.comparingInt(TopicPair::order));
+        this.topics.sort(Comparator.comparingInt(TopicPairer::order));
     }
 
     private int[] fillQos(String[] topics, int[] qos) {
@@ -123,17 +123,17 @@ public class Subscriber {
      * @param topic 主题
      * @return Optional<TopicPair>
      */
-    private Optional<TopicPair> matched(final String clientId, final String topic) {
+    private Optional<TopicPairer> matched(final String clientId, final String topic) {
         if (clientIds == null || clientIds.length == 0 || Arrays.binarySearch(clientIds, clientId) >= 0) {
             return topics.stream().filter(pair -> pair.isMatched(topic)).findFirst();
         }
         return Optional.empty();
     }
 
-    private Object[] fillParameters(TopicPair topicPair, String topic, MqttMessage mqttMessage) {
-        HashMap<String, String> pathValueMap = topicPair.getPathValueMap(topic);
+    private Object[] fillParameters(TopicPairer topicPairer, String topic, MqttMessage mqttMessage) {
+        HashMap<String, String> pathValueMap = topicPairer.getPathValueMap(topic);
         LinkedList<Object> objects = new LinkedList<>();
-        for (ParameterModel parameter : parameters) {
+        for (Parameter parameter : parameters) {
             Class<?> target = parameter.getType();
             String name = parameter.getName();
             LinkedList<Converter<Object, Object>> converters = parameter.getConverters();
@@ -153,7 +153,7 @@ public class Subscriber {
             }
             if (value == null) {
                 if (parameter.isRequired()) {
-                    throw new NullParameterException(parameter);
+                    throw new NullParameException(parameter);
                 }
                 value = parameter.getDefaultValue();
             }
@@ -194,11 +194,11 @@ public class Subscriber {
         }
         hasResolveEmbeddedValue = true;
         if (factory != null) {
-            String[] clients = subscriberModel.clients();
+            String[] clients = subscribeEndpoint.clients();
             for (int i = 0; i < clients.length; i++) {
                 clients[i] = factory.resolveEmbeddedValue(clients[i]);
             }
-            String[] value = subscriberModel.value();
+            String[] value = subscribeEndpoint.value();
             for (int i = 0; i < value.length; i++) {
                 value[i] = factory.resolveEmbeddedValue(value[i]);
             }
@@ -208,8 +208,8 @@ public class Subscriber {
         this.parameters.stream()
                 .filter(param -> param.getName() != null)
                 .forEach(param -> paramTypeMap.put(param.getName(), param.getType()));
-        this.clientIds = subscriberModel.clients();
-        this.setTopics(subscriberModel, paramTypeMap);
+        this.clientIds = subscribeEndpoint.clients();
+        this.setTopics(subscribeEndpoint, paramTypeMap);
     }
 
 }

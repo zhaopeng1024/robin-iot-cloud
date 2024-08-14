@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 主题参数
+ * 通配的主题
  *
  * @author zhao peng
  * @date 2024/7/18 22:52
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TopicParam {
+public class WildcardTopic {
 
     /**
      * 主题名

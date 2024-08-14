@@ -1,6 +1,6 @@
 package com.robin.iot.common.mqtt.subscriber;
 
-import com.robin.iot.common.mqtt.annotation.NamedValue;
+import com.robin.iot.common.mqtt.annotation.Param;
 import com.robin.iot.common.mqtt.annotation.Payload;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.LinkedList;
  **/
 @Getter
 @Slf4j
-public final class ParameterModel {
+public final class Parameter {
 
     /**
      * 是否是消息内容, 若参数为 String 类型, 并且不是消息内容, 则赋值 topic。
@@ -35,36 +35,36 @@ public final class ParameterModel {
 
     private LinkedList<Converter<Object, Object>> converters;
 
-    private ParameterModel() {
+    private Parameter() {
 
     }
 
     /**
      * 该函数的功能是根据给定的 Method 对象，创建一个包含参数信息的 LinkedList。
      * <p>
-     * 每个参数都用 ParameterModel 对象表示，其中包含了参数类型、默认值、是否必须、参数名以及是否为 Payload 等信息。
+     * 每个参数都用 Parameter 对象表示，其中包含了参数类型、默认值、是否必须、参数名以及是否为 Payload 等信息。
      * <p>
      * 函数通过 method.getParameterTypes() 获取参数类型数组，通过 method.getParameterAnnotations() 获取参数注解数组，
      * 然后遍历每个参数，根据注解类型分别设置ParameterModel对象的属性值。最后返回包含所有参数信息的LinkedList。
      * @param method Method
-     * @return LinkedList<ParameterModel>
+     * @return LinkedList<Parameter>
      */
-    public static LinkedList<ParameterModel> of(Method method) {
-        LinkedList<ParameterModel> parameters = new LinkedList<>();
+    public static LinkedList<Parameter> of(Method method) {
+        LinkedList<Parameter> parameters = new LinkedList<>();
         Class<?>[] parameterTypes = method.getParameterTypes();
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         for (int i = 0; i < parameterTypes.length; i++) {
-            ParameterModel model = new ParameterModel();
+            Parameter model = new Parameter();
             parameters.add(model);
             model.type = parameterTypes[i];
             model.defaultValue = defaultValue(model.type);
             Annotation[] annotations = parameterAnnotations[i];
             if (annotations != null) {
                 for (Annotation annotation : annotations) {
-                    if (annotation.annotationType() == NamedValue.class) {
-                        NamedValue namedValue = (NamedValue) annotation;
-                        model.required = model.required || namedValue.required();
-                        model.name = namedValue.value();
+                    if (annotation.annotationType() == Param.class) {
+                        Param param = (Param) annotation;
+                        model.required = model.required || param.required();
+                        model.name = param.value();
                     }
                     if (annotation.annotationType() == Payload.class) {
                         Payload payload = (Payload) annotation;

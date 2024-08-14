@@ -1,5 +1,6 @@
 package com.robin.iot.common.mqtt.subscriber;
 
+import com.robin.iot.common.mqtt.annotation.Param;
 import lombok.Getter;
 import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.springframework.util.Assert;
@@ -11,12 +12,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 主题对，用于处理 MQTT 的订阅主题
+ * 主题配对器
+ * <p>
+ * 如果使用 {@link Param}，则使用该配对器，
+ * <p>
+ * 如果没有，则使用 {@link MqttTopic#isMatched（String， String）} 匹配
  *
  * @author zhao peng
  * @date 2024/7/18 22:54
  **/
-public class TopicPair {
+public class TopicPairer {
 
     private final static Pattern TO_PATTERN = Pattern.compile("\\{(\\w+)}");
     private final static Pattern TO_TOPIC = Pattern.compile("[^/]*\\{\\w+}[^/]*");
@@ -25,12 +30,12 @@ public class TopicPair {
 
     private String topic;
     private Pattern pattern;
-    private TopicParam[] params;
+    private WildcardTopic[] wildcardTopics;
     @Getter
     private int qos;
     private String group;
 
-    public static TopicPair of(String topic, int qos) {
+    public static TopicPairer of(String topic, int qos) {
         return of(topic, qos, null, new HashMap<>());
     }
 
@@ -48,23 +53,23 @@ public class TopicPair {
      * @param paramTypeMap 参数类型映射
      * @return TopicPair 对象
      */
-    public static TopicPair of(String topic, int qos, String group, HashMap<String, Class<?>> paramTypeMap) {
+    public static TopicPairer of(String topic, int qos, String group, HashMap<String, Class<?>> paramTypeMap) {
         Assert.isTrue(topic != null && !topic.isEmpty(), "topic cannot be blank");
         Assert.isTrue(qos >= 0, "qos min value is 0");
         Assert.isTrue(qos <= 2, "qos max value is 2");
-        TopicPair topicPair = new TopicPair();
+        TopicPairer topicPairer = new TopicPairer();
         if (topic.contains("{")) {
-            LinkedList<TopicParam> params = new LinkedList<>();
-            topicPair.pattern = toPattern(topic, params, paramTypeMap);
-            topicPair.params = params.toArray(new TopicParam[0]);
-            topicPair.topic = TO_TOPIC.matcher(topic).replaceAll("+");
+            LinkedList<WildcardTopic> params = new LinkedList<>();
+            topicPairer.pattern = toPattern(topic, params, paramTypeMap);
+            topicPairer.wildcardTopics = params.toArray(new WildcardTopic[0]);
+            topicPairer.topic = TO_TOPIC.matcher(topic).replaceAll("+");
         } else {
-            topicPair.topic = topic;
+            topicPairer.topic = topic;
         }
-        MqttTopic.validate(topicPair.topic, true);
-        topicPair.qos = qos;
-        topicPair.group = group;
-        return topicPair;
+        MqttTopic.validate(topicPairer.topic, true);
+        topicPairer.qos = qos;
+        topicPairer.group = group;
+        return topicPairer;
     }
 
     /**
@@ -82,14 +87,14 @@ public class TopicPair {
      * @param paramTypeMap 参数类型映射表
      * @return 正则表达式模式
      */
-    private static Pattern toPattern(String topic, LinkedList<TopicParam> params, HashMap<String, Class<?>> paramTypeMap) {
+    private static Pattern toPattern(String topic, LinkedList<WildcardTopic> params, HashMap<String, Class<?>> paramTypeMap) {
         String pattern = replaceSymbols(topic);
         Matcher matcher = TO_PATTERN.matcher(pattern);
         StringBuilder builder = new StringBuilder("^");
         int group = 1;
         while (matcher.find()) {
             String paramName = matcher.group(1);
-            params.add(new TopicParam(paramName, group));
+            params.add(new WildcardTopic(paramName, group));
             if (paramTypeMap.containsKey(paramName)) {
                 Class<?> paramType = paramTypeMap.get(paramName);
                 if (Number.class.isAssignableFrom(paramType)) {
@@ -145,7 +150,7 @@ public class TopicPair {
         if (pattern != null) {
             Matcher matcher = pattern.matcher(topic);
             if (matcher.find()) {
-                for (TopicParam param : params) {
+                for (WildcardTopic param : wildcardTopics) {
                     String group = matcher.group(param.getAt());
                     map.put(param.getName(), group);
                 }
@@ -158,8 +163,8 @@ public class TopicPair {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TopicPair topicPair = (TopicPair) o;
-        return Objects.equals(topic, topicPair.topic);
+        TopicPairer topicPairer = (TopicPairer) o;
+        return Objects.equals(topic, topicPairer.topic);
     }
 
     @Override
@@ -173,7 +178,7 @@ public class TopicPair {
      * @return 排序顺序
      */
     public int order() {
-        return this.pattern == null ? 1 : -params.length;
+        return this.pattern == null ? 1 : -wildcardTopics.length;
     }
 
     /**

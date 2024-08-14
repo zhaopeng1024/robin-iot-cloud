@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
-public @interface NamedValue {
+public @interface Param {
 
     /**
      * 参数名

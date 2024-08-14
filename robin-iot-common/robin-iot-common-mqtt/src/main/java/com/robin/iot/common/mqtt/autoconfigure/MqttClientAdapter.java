@@ -1,7 +1,7 @@
 package com.robin.iot.common.mqtt.autoconfigure;
 
 import com.robin.iot.common.mqtt.subscriber.Subscriber;
-import com.robin.iot.common.mqtt.subscriber.TopicPair;
+import com.robin.iot.common.mqtt.subscriber.TopicPairer;
 import org.eclipse.paho.client.mqttv3.IMqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -88,9 +88,9 @@ public abstract class MqttClientAdapter {
      * 在创建客户端后, 订阅主题前, 修改订阅的主题.
      *
      * @param clientId   客户端ID
-     * @param topicPairs 订阅主题
+     * @param topicPairers 订阅主题
      */
-    public void beforeSubscribe(String clientId, Set<TopicPair> topicPairs) {
+    public void beforeSubscribe(String clientId, Set<TopicPairer> topicPairers) {
 
     }
 
