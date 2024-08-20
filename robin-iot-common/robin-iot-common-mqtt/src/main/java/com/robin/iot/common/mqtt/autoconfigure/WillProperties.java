@@ -3,13 +3,13 @@ package com.robin.iot.common.mqtt.autoconfigure;
 import lombok.Data;
 
 /**
- * 遗嘱配置
+ * 遗嘱配置属性
  *
  * @author zhao peng
  * @date 2024/7/15 23:47
  **/
 @Data
-public class Will {
+public class WillProperties {
 
     /**
      * 遗嘱主题

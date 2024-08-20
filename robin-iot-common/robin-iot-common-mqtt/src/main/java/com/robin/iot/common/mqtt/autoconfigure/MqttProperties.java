@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 
 /**
- * MQTT 配置类
+ * MQTT 配置属性
  *
  * @author zhao peng
  * @date 2024/7/16 0:02
@@ -21,7 +21,7 @@ import java.util.function.BiConsumer;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ConfigurationProperties(prefix = "spring.mqtt")
-public class MqttProperties extends MqttConnection {
+public class MqttProperties extends MqttConnectionProperties {
 
     /**
      * 是否禁用
@@ -31,7 +31,7 @@ public class MqttProperties extends MqttConnection {
     /**
      * 客户端配置，key: clientId，value: MqttConnectProperties
      */
-    private Map<String, MqttConnection> clients = new LinkedHashMap<>();
+    private Map<String, MqttConnectionProperties> clients = new LinkedHashMap<>();
 
     /**
      * 遍历所有的客户端配置
@@ -46,16 +46,16 @@ public class MqttProperties extends MqttConnection {
             // 先遍历一遍解决 clientId 冲突的问题
             String[] clientIds = clients.keySet().toArray(new String[0]);
             for (String clientId : clientIds) {
-                MqttConnection mqttConnection = clients.get(clientId);
-                String localClientId = mqttConnection.getClientId();
+                MqttConnectionProperties mqttConnectionProperties = clients.get(clientId);
+                String localClientId = mqttConnectionProperties.getClientId();
                 if (StringUtils.hasText(localClientId) && !localClientId.equals(clientId)) {
                     clients.remove(clientId);
-                    clients.put(localClientId, mqttConnection);
+                    clients.put(localClientId, mqttConnectionProperties);
                 } else {
-                    mqttConnection.setClientId(clientId);
+                    mqttConnectionProperties.setClientId(clientId);
                 }
             }
-            clients.forEach((clientId, mqttConnection) -> {
+            clients.forEach((clientId, mqttConnectionProperties) -> {
                 MqttConnectOptions options = toOptions(clientId);
                 if (options != null) {
                     biConsumer.accept(clientId, options);
@@ -72,41 +72,41 @@ public class MqttProperties extends MqttConnection {
     }
 
     public MqttConnectOptions toOptions(String clientId) {
-        MqttConnection mqttConnection = clients.get(clientId);
-        if (mqttConnection == null) {
+        MqttConnectionProperties mqttConnectionProperties = clients.get(clientId);
+        if (mqttConnectionProperties == null) {
             if (clientId.equals(getClientId())) {
-                mqttConnection = this;
+                mqttConnectionProperties = this;
             } else {
                 return null;
             }
         }
-        merge(mqttConnection);
-        return toOptions(mqttConnection);
+        merge(mqttConnectionProperties);
+        return toOptions(mqttConnectionProperties);
     }
 
-    public MqttConnectOptions toOptions(MqttConnection mqttConnection) {
+    public MqttConnectOptions toOptions(MqttConnectionProperties mqttConnectionProperties) {
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setMaxReconnectDelay(mqttConnection.getMaxReconnectDelay() * 1000);
-        options.setKeepAliveInterval(mqttConnection.getKeepAliveInterval());
-        options.setConnectionTimeout(mqttConnection.getConnectionTimeout());
-        options.setCleanSession(mqttConnection.getCleanSession());
-        options.setAutomaticReconnect(mqttConnection.getAutomaticReconnect());
-        options.setExecutorServiceTimeout(mqttConnection.getExecutorServiceTimeout());
-        options.setServerURIs(mqttConnection.getUris());
-        if (StringUtils.hasText(mqttConnection.getUsername()) && StringUtils.hasText(mqttConnection.getPassword())) {
-            options.setUserName(mqttConnection.getUsername());
-            options.setPassword(mqttConnection.getPassword().toCharArray());
+        options.setMaxReconnectDelay(mqttConnectionProperties.getMaxReconnectDelay() * 1000);
+        options.setKeepAliveInterval(mqttConnectionProperties.getKeepAliveInterval());
+        options.setConnectionTimeout(mqttConnectionProperties.getConnectionTimeout());
+        options.setCleanSession(mqttConnectionProperties.getCleanSession());
+        options.setAutomaticReconnect(mqttConnectionProperties.getAutomaticReconnect());
+        options.setExecutorServiceTimeout(mqttConnectionProperties.getExecutorServiceTimeout());
+        options.setServerURIs(mqttConnectionProperties.getUris());
+        if (StringUtils.hasText(mqttConnectionProperties.getUsername()) && StringUtils.hasText(mqttConnectionProperties.getPassword())) {
+            options.setUserName(mqttConnectionProperties.getUsername());
+            options.setPassword(mqttConnectionProperties.getPassword().toCharArray());
         }
-        if (mqttConnection.getWill() != null) {
-            Will will = mqttConnection.getWill();
-            if (StringUtils.hasText(will.getTopic()) && StringUtils.hasText(will.getPayload())) {
-                options.setWill(will.getTopic(), will.getPayload().getBytes(StandardCharsets.UTF_8), will.getQos(), will.getRetained());
+        if (mqttConnectionProperties.getWillProperties() != null) {
+            WillProperties willProperties = mqttConnectionProperties.getWillProperties();
+            if (StringUtils.hasText(willProperties.getTopic()) && StringUtils.hasText(willProperties.getPayload())) {
+                options.setWill(willProperties.getTopic(), willProperties.getPayload().getBytes(StandardCharsets.UTF_8), willProperties.getQos(), willProperties.getRetained());
             }
         }
         return options;
     }
 
-    public void merge(MqttConnection target) {
+    public void merge(MqttConnectionProperties target) {
         target.setUris(mergeValue(getUris(), target.getUris(), new String[]{"tcp://127.0.0.1:1883"}));
         target.setUsername(mergeValue(getUsername(), target.getUsername(), null));
         target.setPassword(mergeValue(getPassword(), target.getPassword(), null));
@@ -117,15 +117,15 @@ public class MqttProperties extends MqttConnection {
         target.setExecutorServiceTimeout(mergeValue(getExecutorServiceTimeout(), target.getExecutorServiceTimeout(), 10));
         target.setCleanSession(mergeValue(getCleanSession(), target.getCleanSession(), true));
         target.setAutomaticReconnect(mergeValue(getAutomaticReconnect(), target.getAutomaticReconnect(), true));
-        target.setWill(mergeValue(getWill(), target.getWill(), null));
+        target.setWillProperties(mergeValue(getWillProperties(), target.getWillProperties(), null));
         target.setEnableSharedSubscription(mergeValue(getEnableSharedSubscription(), target.getEnableSharedSubscription(), true));
-        if (target.getWill() != null && getWill() != null) {
-            Will will = getWill();
-            Will targetWill = target.getWill();
-            targetWill.setTopic(mergeValue(will.getTopic(), targetWill.getTopic(), null));
-            targetWill.setPayload(mergeValue(will.getPayload(), targetWill.getPayload(), null));
-            targetWill.setQos(mergeValue(will.getQos(), targetWill.getQos(), 0));
-            targetWill.setRetained(mergeValue(will.getRetained(), targetWill.getRetained(), false));
+        if (target.getWillProperties() != null && getWillProperties() != null) {
+            WillProperties willProperties = getWillProperties();
+            WillProperties targetWillProperties = target.getWillProperties();
+            targetWillProperties.setTopic(mergeValue(willProperties.getTopic(), targetWillProperties.getTopic(), null));
+            targetWillProperties.setPayload(mergeValue(willProperties.getPayload(), targetWillProperties.getPayload(), null));
+            targetWillProperties.setQos(mergeValue(willProperties.getQos(), targetWillProperties.getQos(), 0));
+            targetWillProperties.setRetained(mergeValue(willProperties.getRetained(), targetWillProperties.getRetained(), false));
         }
     }
     
@@ -141,11 +141,11 @@ public class MqttProperties extends MqttConnection {
         if (clientId.equals(getClientId())) {
             return getEnableSharedSubscription();
         } else {
-            MqttConnection mqttConnection = clients.get(clientId);
-            if (mqttConnection == null) {
+            MqttConnectionProperties mqttConnectionProperties = clients.get(clientId);
+            if (mqttConnectionProperties == null) {
                 return false;
             }
-            return mqttConnection.getEnableSharedSubscription();
+            return mqttConnectionProperties.getEnableSharedSubscription();
         }
     }
 
@@ -153,11 +153,11 @@ public class MqttProperties extends MqttConnection {
         if (clientId.equals(getClientId())) {
             return getDefaultPublishQos();
         } else {
-            MqttConnection mqttConnection = clients.get(clientId);
-            if (mqttConnection == null) {
+            MqttConnectionProperties mqttConnectionProperties = clients.get(clientId);
+            if (mqttConnectionProperties == null) {
                 return 0;
             }
-            return mqttConnection.getDefaultPublishQos();
+            return mqttConnectionProperties.getDefaultPublishQos();
         }
     }
 }

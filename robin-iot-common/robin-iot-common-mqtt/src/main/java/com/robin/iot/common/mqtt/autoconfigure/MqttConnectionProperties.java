@@ -4,13 +4,13 @@ import lombok.Data;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 /**
- * MQTT 连接
+ * MQTT 连接属性
  *
  * @author zhao peng
  * @date 2024/7/15 22:13
  **/
 @Data
-public class MqttConnection {
+public class MqttConnectionProperties {
 
     /**
      * MQTT 服务器地址，必填，可以配置多个地址
@@ -96,6 +96,6 @@ public class MqttConnection {
     /**
      * 遗愿消息相关配置
      */
-    private Will will;
+    private WillProperties willProperties;
 
 }

@@ -37,16 +37,16 @@ public class MqttClientManager implements DisposableBean {
         this.mqttClientAdapter.setMqttProperties(mqttProperties);
     }
 
-    public SimpleMqttClient open(MqttConnection mqttConnection) {
-        String clientId = mqttConnection.getClientId();
+    public SimpleMqttClient open(MqttConnectionProperties mqttConnectionProperties) {
+        String clientId = mqttConnectionProperties.getClientId();
         Assert.hasText(clientId, "ClientId cannot be blank");
         Assert.notEmpty(mqttProperties.getUris(), "uris cannot be empty");
         Assert.hasText(mqttProperties.getUris()[0], "uri cannot be blank");
         if (clients.containsKey(clientId)) {
             close(clientId);
         }
-        this.mqttProperties.merge(mqttConnection);
-        MqttConnectOptions options = this.mqttProperties.toOptions(mqttConnection);
+        this.mqttProperties.merge(mqttConnectionProperties);
+        MqttConnectOptions options = this.mqttProperties.toOptions(mqttConnectionProperties);
         return open(clientId, options, null);
     }
 

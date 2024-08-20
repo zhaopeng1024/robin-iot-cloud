@@ -8,5 +8,5 @@ import org.springframework.core.convert.converter.Converter;
  * @author zhao peng
  * @date 2024/7/29 23:59
  **/
-public interface PayloadSerialize extends Converter<Object, byte[]> {
+public interface PayloadSerializer extends Converter<Object, byte[]> {
 }

@@ -34,14 +34,14 @@ public class MqttClientRegister {
      */
     public MqttClientRegister add(String clientId, String... uris) {
         Assert.notNull(clientId, "clientId must not be null");
-        MqttConnection mqttConnection = new MqttConnection();
+        MqttConnectionProperties mqttConnectionProperties = new MqttConnectionProperties();
         if (uris != null && uris.length > 0) {
-            mqttConnection.setUris(uris);
+            mqttConnectionProperties.setUris(uris);
         } else {
-            mqttConnection.setUris(null);
+            mqttConnectionProperties.setUris(null);
         }
-        mqttConnection.setClientId(clientId);
-        mqttProperties.getClients().put(clientId, mqttConnection);
+        mqttConnectionProperties.setClientId(clientId);
+        mqttProperties.getClients().put(clientId, mqttConnectionProperties);
         resetClientId(clientId);
         return this;
     }
@@ -49,14 +49,14 @@ public class MqttClientRegister {
     /**
      * 添加客户端
      * @param clientId 客户端 ID
-     * @param mqttConnection MQTT 连接配置
+     * @param mqttConnectionProperties MQTT 连接配置
      * @return 注册器实例
      */
-    public MqttClientRegister add(String clientId, MqttConnection mqttConnection) {
+    public MqttClientRegister add(String clientId, MqttConnectionProperties mqttConnectionProperties) {
         Assert.notNull(clientId, "clientId must not be null");
-        Assert.notNull(mqttConnection, "mqttConnection must not be null");
-        mqttConnection.setClientId(clientId);
-        mqttProperties.getClients().put(clientId, mqttConnection);
+        Assert.notNull(mqttConnectionProperties, "mqttConnection must not be null");
+        mqttConnectionProperties.setClientId(clientId);
+        mqttProperties.getClients().put(clientId, mqttConnectionProperties);
         resetClientId(clientId);
         return this;
     }
@@ -85,23 +85,23 @@ public class MqttClientRegister {
 
     /**
      * 设置默认客户端
-     * @param mqttConnection 默认客户端配置
+     * @param mqttConnectionProperties 默认客户端配置
      * @return 注册器实例
      */
-    public MqttClientRegister setDefault(MqttConnection mqttConnection) {
-        mqttProperties.setClientId(mqttConnection.getClientId());
-        mqttProperties.setUsername(mqttConnection.getUsername());
-        mqttProperties.setPassword(mqttConnection.getPassword());
-        mqttProperties.setWill(mqttConnection.getWill());
-        mqttProperties.setAutomaticReconnect(mqttConnection.getAutomaticReconnect());
-        mqttProperties.setCleanSession(mqttConnection.getCleanSession());
-        mqttProperties.setConnectionTimeout(mqttConnection.getConnectionTimeout());
-        mqttProperties.setExecutorServiceTimeout(mqttConnection.getExecutorServiceTimeout());
-        mqttProperties.setKeepAliveInterval(mqttConnection.getKeepAliveInterval());
-        mqttProperties.setMaxReconnectDelay(mqttConnection.getMaxReconnectDelay());
-        mqttProperties.setUris(mqttConnection.getUris());
-        mqttProperties.setEnableSharedSubscription(mqttConnection.getEnableSharedSubscription());
-        mqttProperties.setDefaultPublishQos(mqttConnection.getDefaultPublishQos());
+    public MqttClientRegister setDefault(MqttConnectionProperties mqttConnectionProperties) {
+        mqttProperties.setClientId(mqttConnectionProperties.getClientId());
+        mqttProperties.setUsername(mqttConnectionProperties.getUsername());
+        mqttProperties.setPassword(mqttConnectionProperties.getPassword());
+        mqttProperties.setWillProperties(mqttConnectionProperties.getWillProperties());
+        mqttProperties.setAutomaticReconnect(mqttConnectionProperties.getAutomaticReconnect());
+        mqttProperties.setCleanSession(mqttConnectionProperties.getCleanSession());
+        mqttProperties.setConnectionTimeout(mqttConnectionProperties.getConnectionTimeout());
+        mqttProperties.setExecutorServiceTimeout(mqttConnectionProperties.getExecutorServiceTimeout());
+        mqttProperties.setKeepAliveInterval(mqttConnectionProperties.getKeepAliveInterval());
+        mqttProperties.setMaxReconnectDelay(mqttConnectionProperties.getMaxReconnectDelay());
+        mqttProperties.setUris(mqttConnectionProperties.getUris());
+        mqttProperties.setEnableSharedSubscription(mqttConnectionProperties.getEnableSharedSubscription());
+        mqttProperties.setDefaultPublishQos(mqttConnectionProperties.getDefaultPublishQos());
         return this;
     }
     
