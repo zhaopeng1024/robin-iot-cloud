@@ -1,0 +1,3 @@
+com.robin.iot.common.mqtt.autoconfigure.MqttSubscriberProcessor
+com.robin.iot.common.mqtt.autoconfigure.JacksonPayloadAutoConfiguration
+com.robin.iot.common.mqtt.autoconfigure.MqttAutoConfiguration
