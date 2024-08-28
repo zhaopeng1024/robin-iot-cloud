@@ -21,6 +21,7 @@
         <module>robin-iot-common-banner</module>
         <module>robin-iot-common-mqtt</module>
         <module>robin-iot-common-kafka</module>
+        <module>robin-iot-common-mybatis</module>
     </modules>
 
     <artifactId>robin-iot-common</artifactId>
