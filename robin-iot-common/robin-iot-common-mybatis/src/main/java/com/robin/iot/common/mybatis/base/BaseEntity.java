@@ -48,7 +48,7 @@ public abstract class BaseEntity implements Serializable {
     private String updatedUser;
 
     /**
-     * 是否删除
+     * 是否已删除
      */
     @TableLogic
     private Boolean isDeleted;

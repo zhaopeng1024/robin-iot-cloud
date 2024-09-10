@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
+import org.apache.ibatis.session.Configuration;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * 增强的 SQL 注入器
  * <p>
  * 注入了 MyBatis-Plus 实现的 SQL 级的批量 Insert 数据的 AbstractMethod 子类 InsertBatchSomeColumn
+ *
  * @see InsertBatchSomeColumn
  * @author zhao peng
  * @date 2024/8/29 0:06
@@ -21,8 +23,8 @@ import java.util.List;
 public class EnhancedSqlInjector extends DefaultSqlInjector {
 
     @Override
-    public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {
-        List<AbstractMethod> methodList = super.getMethodList(mapperClass, tableInfo);
+    public List<AbstractMethod> getMethodList(Configuration configuration, Class<?> mapperClass, TableInfo tableInfo) {
+        List<AbstractMethod> methodList = super.getMethodList(configuration, mapperClass, tableInfo);
         // 更新时自动填充的字段不用插入值、ID自增的主键不用插入值
         methodList.add(new InsertBatchSomeColumn(column -> {
             TableId tableId = column.getField().getAnnotation(TableId.class);
@@ -30,5 +32,4 @@ public class EnhancedSqlInjector extends DefaultSqlInjector {
         }));
         return methodList;
     }
-
 }

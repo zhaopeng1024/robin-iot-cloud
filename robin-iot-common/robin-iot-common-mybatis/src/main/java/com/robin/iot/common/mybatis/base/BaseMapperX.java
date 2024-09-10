@@ -20,6 +20,7 @@ import java.util.List;
  * @author zhao peng
  * @date 2024/8/28 23:49
  **/
+@SuppressWarnings("unused")
 public interface BaseMapperX<T> extends BaseMapper<T> {
 
     /**
