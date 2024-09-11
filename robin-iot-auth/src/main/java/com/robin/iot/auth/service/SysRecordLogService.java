@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.robin.iot.common.core.constant.Constants;
 import com.robin.iot.common.core.constant.SecurityConstants;
-import com.robin.iot.common.core.utils.StringUtils;
-import com.robin.iot.common.core.utils.ip.IpUtils;
+import com.robin.iot.common.core.util.StringUtils;
+import com.robin.iot.common.core.util.ip.IpUtils;
 import com.robin.iot.system.api.RemoteLogService;
 import com.robin.iot.system.api.domain.SysLogininfor;
 

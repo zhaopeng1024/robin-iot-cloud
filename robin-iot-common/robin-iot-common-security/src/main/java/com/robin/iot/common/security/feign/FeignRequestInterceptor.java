@@ -4,9 +4,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import com.robin.iot.common.core.constant.SecurityConstants;
-import com.robin.iot.common.core.utils.ServletUtils;
-import com.robin.iot.common.core.utils.StringUtils;
-import com.robin.iot.common.core.utils.ip.IpUtils;
+import com.robin.iot.common.core.util.ServletUtils;
+import com.robin.iot.common.core.util.StringUtils;
+import com.robin.iot.common.core.util.ip.IpUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 

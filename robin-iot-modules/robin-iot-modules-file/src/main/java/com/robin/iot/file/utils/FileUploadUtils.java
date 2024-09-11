@@ -10,11 +10,11 @@ import com.robin.iot.common.core.exception.file.FileException;
 import com.robin.iot.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.robin.iot.common.core.exception.file.FileSizeLimitExceededException;
 import com.robin.iot.common.core.exception.file.InvalidExtensionException;
-import com.robin.iot.common.core.utils.DateUtils;
-import com.robin.iot.common.core.utils.StringUtils;
-import com.robin.iot.common.core.utils.file.FileTypeUtils;
-import com.robin.iot.common.core.utils.file.MimeTypeUtils;
-import com.robin.iot.common.core.utils.uuid.Seq;
+import com.robin.iot.common.core.util.DateUtils;
+import com.robin.iot.common.core.util.StringUtils;
+import com.robin.iot.common.core.util.file.FileTypeUtils;
+import com.robin.iot.common.core.util.file.MimeTypeUtils;
+import com.robin.iot.common.core.util.uuid.Seq;
 
 /**
  * 文件上传工具类

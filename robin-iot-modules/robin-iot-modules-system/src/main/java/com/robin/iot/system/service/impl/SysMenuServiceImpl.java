@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.robin.iot.common.core.constant.Constants;
 import com.robin.iot.common.core.constant.UserConstants;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.security.utils.SecurityUtils;
 import com.robin.iot.system.api.domain.SysRole;
 import com.robin.iot.system.api.domain.SysUser;

@@ -27,7 +27,7 @@ import com.robin.iot.common.core.constant.Constants;
 import com.robin.iot.common.core.constant.GenConstants;
 import com.robin.iot.common.core.exception.ServiceException;
 import com.robin.iot.common.core.text.CharsetKit;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.security.utils.SecurityUtils;
 import com.robin.iot.gen.domain.GenTable;
 import com.robin.iot.gen.domain.GenTableColumn;

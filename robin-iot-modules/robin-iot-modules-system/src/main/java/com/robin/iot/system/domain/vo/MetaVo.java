@@ -1,6 +1,6 @@
 package com.robin.iot.system.domain.vo;
 
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 
 /**
  * 路由显示信息

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.robin.iot.common.core.constant.UserConstants;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.core.web.controller.BaseController;
 import com.robin.iot.common.core.web.domain.AjaxResult;
 import com.robin.iot.common.log.annotation.Log;

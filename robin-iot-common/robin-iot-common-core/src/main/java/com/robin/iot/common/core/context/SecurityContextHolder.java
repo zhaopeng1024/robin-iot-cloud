@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.robin.iot.common.core.constant.SecurityConstants;
 import com.robin.iot.common.core.text.Convert;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 
 /**
  * 获取当前线程变量中的 用户id、用户名称、Token等信息 

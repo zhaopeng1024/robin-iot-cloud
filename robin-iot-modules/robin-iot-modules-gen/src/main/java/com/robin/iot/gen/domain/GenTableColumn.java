@@ -2,7 +2,7 @@ package com.robin.iot.gen.domain;
 
 import javax.validation.constraints.NotBlank;
 
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.core.web.domain.BaseEntity;
 
 /**

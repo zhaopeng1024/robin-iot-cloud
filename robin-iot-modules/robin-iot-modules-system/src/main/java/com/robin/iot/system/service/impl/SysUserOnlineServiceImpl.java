@@ -1,7 +1,7 @@
 package com.robin.iot.system.service.impl;
 
 import org.springframework.stereotype.Service;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.system.api.model.LoginUser;
 import com.robin.iot.system.domain.SysUserOnline;
 import com.robin.iot.system.service.ISysUserOnlineService;

@@ -7,8 +7,8 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import com.robin.iot.common.core.constant.SecurityConstants;
 import com.robin.iot.common.core.exception.InnerAuthException;
-import com.robin.iot.common.core.utils.ServletUtils;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.ServletUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.security.annotation.InnerAuth;
 
 /**

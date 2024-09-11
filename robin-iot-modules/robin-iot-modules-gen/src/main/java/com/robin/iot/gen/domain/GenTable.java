@@ -5,7 +5,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.ArrayUtils;
 import com.robin.iot.common.core.constant.GenConstants;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.core.web.domain.BaseEntity;
 
 /**

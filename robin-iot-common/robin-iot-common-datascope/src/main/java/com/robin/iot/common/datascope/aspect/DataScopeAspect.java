@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 import com.robin.iot.common.core.context.SecurityContextHolder;
 import com.robin.iot.common.core.text.Convert;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.core.web.domain.BaseEntity;
 import com.robin.iot.common.datascope.annotation.DataScope;
 import com.robin.iot.common.security.utils.SecurityUtils;

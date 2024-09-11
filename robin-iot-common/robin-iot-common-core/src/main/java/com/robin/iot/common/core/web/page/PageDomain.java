@@ -1,6 +1,6 @@
 package com.robin.iot.common.core.web.page;
 
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 
 /**
  * 分页数据

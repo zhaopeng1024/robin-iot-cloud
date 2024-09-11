@@ -2,7 +2,7 @@ package com.robin.iot.common.core.text;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 
 /**
  * 字符集工具类

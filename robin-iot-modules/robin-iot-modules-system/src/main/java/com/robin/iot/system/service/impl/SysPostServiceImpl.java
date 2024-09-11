@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.robin.iot.common.core.constant.UserConstants;
 import com.robin.iot.common.core.exception.ServiceException;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.system.domain.SysPost;
 import com.robin.iot.system.mapper.SysPostMapper;
 import com.robin.iot.system.mapper.SysUserPostMapper;

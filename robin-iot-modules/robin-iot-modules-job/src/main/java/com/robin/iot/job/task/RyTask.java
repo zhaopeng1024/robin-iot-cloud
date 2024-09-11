@@ -1,7 +1,7 @@
 package com.robin.iot.job.task;
 
 import org.springframework.stereotype.Component;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 
 /**
  * 定时任务调度测试

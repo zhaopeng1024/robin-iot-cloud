@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.robin.iot.common.core.constant.UserConstants;
 import com.robin.iot.common.core.exception.ServiceException;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.security.utils.DictUtils;
 import com.robin.iot.system.api.domain.SysDictData;
 import com.robin.iot.system.api.domain.SysDictType;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.robin.iot.common.core.domain.R;
-import com.robin.iot.common.core.utils.file.FileUtils;
+import com.robin.iot.common.core.util.file.FileUtils;
 import com.robin.iot.file.service.ISysFileService;
 import com.robin.iot.system.api.domain.SysFile;
 

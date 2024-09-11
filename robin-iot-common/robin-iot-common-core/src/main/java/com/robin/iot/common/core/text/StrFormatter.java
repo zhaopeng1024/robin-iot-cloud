@@ -1,6 +1,6 @@
 package com.robin.iot.common.core.text;
 
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 
 /**
  * 字符串格式化

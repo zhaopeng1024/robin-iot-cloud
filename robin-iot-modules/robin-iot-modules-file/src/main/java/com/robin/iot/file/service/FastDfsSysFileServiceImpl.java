@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import com.robin.iot.common.core.utils.file.FileTypeUtils;
+import com.robin.iot.common.core.util.file.FileTypeUtils;
 
 /**
  * FastDFS 文件存储

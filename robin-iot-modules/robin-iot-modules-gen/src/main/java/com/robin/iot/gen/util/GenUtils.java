@@ -3,7 +3,7 @@ package com.robin.iot.gen.util;
 import java.util.Arrays;
 import org.apache.commons.lang3.RegExUtils;
 import com.robin.iot.common.core.constant.GenConstants;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.gen.config.GenConfig;
 import com.robin.iot.gen.domain.GenTable;
 import com.robin.iot.gen.domain.GenTableColumn;

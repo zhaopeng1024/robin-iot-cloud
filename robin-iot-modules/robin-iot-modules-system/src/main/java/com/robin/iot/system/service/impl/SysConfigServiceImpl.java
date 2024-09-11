@@ -9,7 +9,7 @@ import com.robin.iot.common.core.constant.CacheConstants;
 import com.robin.iot.common.core.constant.UserConstants;
 import com.robin.iot.common.core.exception.ServiceException;
 import com.robin.iot.common.core.text.Convert;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.redis.service.RedisService;
 import com.robin.iot.system.domain.SysConfig;
 import com.robin.iot.system.mapper.SysConfigMapper;

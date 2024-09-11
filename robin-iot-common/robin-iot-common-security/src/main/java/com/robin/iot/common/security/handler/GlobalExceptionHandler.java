@@ -6,7 +6,7 @@ import com.robin.iot.common.core.exception.InnerAuthException;
 import com.robin.iot.common.core.exception.ServiceException;
 import com.robin.iot.common.core.exception.auth.NotPermissionException;
 import com.robin.iot.common.core.exception.auth.NotRoleException;
-import com.robin.iot.common.core.utils.StringUtils;
+import com.robin.iot.common.core.util.StringUtils;
 import com.robin.iot.common.core.web.domain.AjaxResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
