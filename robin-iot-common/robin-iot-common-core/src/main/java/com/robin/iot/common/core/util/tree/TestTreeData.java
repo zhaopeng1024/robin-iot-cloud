@@ -32,6 +32,9 @@ public class TestTreeData {
 
         List<Area> treeAreas = TreeUtils.buildTree(areas, node -> node.getParentId().equals(0L), (parent, child) -> parent.getId().equals(child.getParentId()), Area::setSubAreas);
         System.out.println(JSONObject.toJSONString(treeAreas));
+        TreeUtils.postOrder(treeAreas, node -> System.out.println(JSONObject.toJSONString(node)), Area::getSubAreas);
+        System.out.println(JSONObject.toJSONString(TreeUtils.flat(treeAreas, Area::getSubAreas, node -> node.setSubAreas(null))));
+
 
     }
 
