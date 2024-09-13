@@ -179,16 +179,6 @@ public final class TreeUtils {
             }
         }
         return tree;
-        /* return tree.stream().filter(node -> {
-            if (predicate.test(node)) {
-                List<E> children = getChildren.apply(node);
-                if (children != null && !children.isEmpty()) {
-                    filter(children, predicate, getChildren);
-                }
-                return true;
-            }
-            return false;
-        }).collect(Collectors.toList()); */
     }
 
     /**
