@@ -32,10 +32,18 @@ public class TestTreeData {
 
         List<Area> treeAreas = TreeUtils.buildTree(areas, node -> node.getParentId().equals(0L), (parent, child) -> parent.getId().equals(child.getParentId()), Area::setSubAreas);
         System.out.println(JSONObject.toJSONString(treeAreas));
-        TreeUtils.postOrder(treeAreas, node -> System.out.println(JSONObject.toJSONString(node)), Area::getSubAreas);
+        // TreeUtils.postOrder(treeAreas, node -> System.out.println(JSONObject.toJSONString(node)), Area::getSubAreas);
+        System.out.println(JSONObject.toJSONString(TreeUtils.sort(treeAreas, (o1, o2) -> o2.getSort() - o1.getSort(), Area::getSubAreas)));
         System.out.println(JSONObject.toJSONString(TreeUtils.flat(treeAreas, Area::getSubAreas, node -> node.setSubAreas(null))));
 
+        List<Area> areas1 = TreeUtils.buildTree(areas, Area::getParentId, Area::getId, node -> node.getParentId().equals(0L), Area::setSubAreas);
+        System.out.println(JSONObject.toJSONString(areas1));
 
+        List<Area> areas2 = TreeUtils.filter(areas1, node -> node.getId() < 106L, Area::getSubAreas);
+        System.out.println(JSONObject.toJSONString(areas2));
+
+        TreeUtils.search(areas2, node -> node.getId() == 104L, Area::getSubAreas);
+        System.out.println(JSONObject.toJSONString(areas2));
     }
 
 }
