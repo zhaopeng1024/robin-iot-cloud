@@ -2,6 +2,7 @@ package com.robin.iot.common.mybatis.autoconfigure;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
@@ -30,6 +31,9 @@ public class EnhancedMybatisAutoConfiguration {
         }
         if (properties.getEnableOptimisticLock()) {
             mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        }
+        if (properties.getEnableIllegalSqlIntercept()) {
+            mybatisPlusInterceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
         }
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(properties.getDbType()));
         return mybatisPlusInterceptor;

@@ -41,4 +41,9 @@ public class EnhancedMybatisProperties {
      * 是否启用乐观锁插件
      */
     private Boolean enableOptimisticLock = Boolean.FALSE;
+
+    /**
+     * 是否启用非法 SQL 拦截插件
+     */
+    private Boolean enableIllegalSqlIntercept = Boolean.TRUE;
 }
