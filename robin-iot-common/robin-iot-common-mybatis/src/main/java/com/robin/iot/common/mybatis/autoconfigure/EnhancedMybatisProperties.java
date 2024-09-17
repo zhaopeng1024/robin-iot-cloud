@@ -37,4 +37,8 @@ public class EnhancedMybatisProperties {
      */
     private Boolean enablePublicFieldsInject = Boolean.TRUE;
 
+    /**
+     * 是否启用乐观锁插件
+     */
+    private Boolean enableOptimisticLock = Boolean.FALSE;
 }

@@ -2,6 +2,7 @@ package com.robin.iot.common.mybatis.autoconfigure;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.robin.iot.common.mybatis.handler.MultiTenantHandler;
@@ -26,6 +27,9 @@ public class EnhancedMybatisAutoConfiguration {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
         if (properties.getEnableMultiTenant()) {
             mybatisPlusInterceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new MultiTenantHandler(properties)));
+        }
+        if (properties.getEnableOptimisticLock()) {
+            mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         }
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(properties.getDbType()));
         return mybatisPlusInterceptor;
