@@ -32,4 +32,9 @@ public class EnhancedMybatisProperties {
      */
     private Set<String> ignoredTables = Collections.emptySet();
 
+    /**
+     * 是否启用公共字段自动注入
+     */
+    private Boolean enablePublicFieldsInject = Boolean.TRUE;
+
 }

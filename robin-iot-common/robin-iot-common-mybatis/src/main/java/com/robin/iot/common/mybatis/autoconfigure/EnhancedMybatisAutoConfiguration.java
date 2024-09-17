@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.robin.iot.common.mybatis.handler.MultiTenantHandler;
+import com.robin.iot.common.mybatis.handler.PublicFieldsHandler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -27,6 +29,12 @@ public class EnhancedMybatisAutoConfiguration {
         }
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(properties.getDbType()));
         return mybatisPlusInterceptor;
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "spring.mybatis", name = "enablePublicFieldsInject", havingValue = "true", matchIfMissing = true)
+    public PublicFieldsHandler publicFieldsHandler() {
+        return new PublicFieldsHandler();
     }
 
 }
