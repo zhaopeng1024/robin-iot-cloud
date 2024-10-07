@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.robin.iot.common.mybatis.page.PageData;
-import com.robin.iot.common.mybatis.page.PageParams;
+import com.robin.iot.common.mybatis.page.PageParam;
 import com.robin.iot.common.mybatis.page.PageUtils;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,12 +26,12 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
     /**
      * 分页查询
      * 支持将 {@link BaseMapper#selectPage(IPage, Wrapper)} 的查询结果封装成 Spring MVC 工具中自定义的 {@link PageData} 数据结构
-     * @param pageParams 分页参数
+     * @param pageParam 分页参数
      * @param queryWrapper 查询条件
      * @return PageData 实例
      */
-    default PageData<T> selectPage(PageParams pageParams, @Param("ew") Wrapper<T> queryWrapper) {
-        IPage<T> page = PageUtils.buildPage(pageParams);
+    default PageData<T> selectPage(PageParam pageParam, @Param("ew") Wrapper<T> queryWrapper) {
+        IPage<T> page = PageUtils.buildPage(pageParam);
         selectPage(page, queryWrapper);
         return new PageData<>(page.getRecords(), page.getTotal(), page.getPages());
     }

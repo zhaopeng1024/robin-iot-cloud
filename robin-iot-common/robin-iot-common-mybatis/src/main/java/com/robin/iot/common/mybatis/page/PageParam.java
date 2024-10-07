@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2024/8/28 23:57
  **/
 @Data
-public class PageParams {
+public class PageParam {
 
     private static final int DEFAULT_PAGE_NO = 1;
     private static final int DEFAULT_PAGE_SIZE = 10;
@@ -18,11 +18,11 @@ public class PageParams {
 
     private Integer pageSize = DEFAULT_PAGE_SIZE;
 
-    public PageParams() {
+    public PageParam() {
 
     }
 
-    public PageParams(Integer pageNo, Integer pageSize) {
+    public PageParam(Integer pageNo, Integer pageSize) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
     }

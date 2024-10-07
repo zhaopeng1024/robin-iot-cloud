@@ -12,12 +12,12 @@ public final class PageUtils {
 
     /**
      * 构建 {@link Page} 实例
-     * @param pageParams 分页请求参数
+     * @param pageParam 分页请求参数
      * @return {@link Page} 实例
      * @param <T> 分页泛型
      */
-    public static <T> Page<T> buildPage(PageParams pageParams) {
-        return new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
+    public static <T> Page<T> buildPage(PageParam pageParam) {
+        return new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
     }
 
 }
