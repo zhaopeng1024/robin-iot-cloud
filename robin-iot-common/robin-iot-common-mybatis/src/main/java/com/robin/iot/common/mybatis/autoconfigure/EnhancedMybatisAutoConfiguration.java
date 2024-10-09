@@ -6,9 +6,16 @@ import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerIntercept
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.robin.iot.common.mybatis.handler.DataEncryptHandler;
 import com.robin.iot.common.mybatis.handler.MultiTenantHandler;
 import com.robin.iot.common.mybatis.handler.PublicFieldsHandler;
+import com.robin.iot.common.mybatis.injector.EnhancedSqlInjector;
+import com.robin.iot.common.mybatis.security.AesEncryptor;
+import com.robin.iot.common.mybatis.security.Algorithm;
+import com.robin.iot.common.mybatis.security.Base64Encryptor;
+import com.robin.iot.common.mybatis.security.DataEncryptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +50,28 @@ public class EnhancedMybatisAutoConfiguration {
     @ConditionalOnProperty(prefix = "spring.mybatis", name = "enablePublicFieldsInject", havingValue = "true", matchIfMissing = true)
     public PublicFieldsHandler publicFieldsHandler() {
         return new PublicFieldsHandler();
+    }
+
+    @Bean
+    public DataEncryptHandler<?> encryptHandler() {
+        return new DataEncryptHandler<>();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DataEncryptor.class)
+    @ConditionalOnProperty(prefix = "spring.mybatis.encrypt", name = "enable", havingValue = "true")
+    public DataEncryptor dataEncryptor(EnhancedMybatisProperties enhancedMybatisProperties) {
+        Algorithm algorithm = enhancedMybatisProperties.getDataEncrypt().getAlgorithm();
+        return switch (algorithm) {
+            case BASE64 -> new Base64Encryptor();
+            case AES -> new AesEncryptor(enhancedMybatisProperties);
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public EnhancedSqlInjector enhancedSqlInjector() {
+        return new EnhancedSqlInjector();
     }
 
 }

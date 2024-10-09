@@ -1,7 +1,10 @@
 package com.robin.iot.common.mybatis.autoconfigure;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.toolkit.AES;
+import com.robin.iot.common.mybatis.security.Algorithm;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Collections;
@@ -16,6 +19,8 @@ import java.util.Set;
 @Data
 @ConfigurationProperties(prefix = "spring.mybatis")
 public class EnhancedMybatisProperties {
+
+    public static final String AES_KEY = AES.generateRandomKey();
 
     /**
      * 数据库类型
@@ -46,4 +51,27 @@ public class EnhancedMybatisProperties {
      * 是否启用非法 SQL 拦截插件
      */
     private Boolean enableIllegalSqlIntercept = Boolean.TRUE;
+
+    @Getter
+    private final DataEncrypt dataEncrypt = new DataEncrypt();
+
+    @Data
+    public static class DataEncrypt {
+        /**
+         * 加密算法
+         */
+        private Algorithm algorithm = Algorithm.BASE64;
+
+        /**
+         * AES 加密密钥
+         */
+        private String aesKey = AES_KEY;
+
+        /**
+         * AES 偏移参数
+         */
+        private String aesIv = "0f7687fe684d7ed0";
+
+    }
+
 }
